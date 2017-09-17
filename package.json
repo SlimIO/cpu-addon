@@ -1,0 +1,24 @@
+{
+  "name": "cpu",
+  "version": "1.0.0",
+  "description": "SlimIO CPU Addon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SlimIO/cpu.git"
+  },
+  "keywords": [
+    "slimio",
+    "cpu",
+    "addon"
+  ],
+  "author": "SlimIO",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/SlimIO/cpu/issues"
+  },
+  "homepage": "https://github.com/SlimIO/cpu#readme"
+}
