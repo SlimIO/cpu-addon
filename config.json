@@ -1,6 +1,5 @@
 {
     "name": "cpu",
     "interval": 1000,
-    "spawn": false,
-    "foo": "bar"
+    "fork": false
 }
