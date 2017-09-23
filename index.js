@@ -1,31 +1,24 @@
 /**
  * @const CPU
- * @type {Service}
+ * @type {Addon}
  * @default
  */
-const CPU = new Service(main);
+const CPU = new Addon(main);
 
 // Regisering get_info callback!
-CPU.registerCallback(async function get_info() {
-    return 'get_info hello world!';
-});
+CPU.registerCallback(get_info);
 
+async function get_info() {
+    return 'get_info hello world!';
+}
 
 /**
  * Addon main handler
  * @async
  * @function main
  */
-async function main() {
-    //CPU.send('hello world!');
-    this.logger.info('Hello world!');
-    // const ret = await CPU.execute('agent.addons.stop',{
-    //     name: 'cpu'
-    // }).catch( E => {
-    //     this.logger.error(`Failed to stop cpu addon :: ${E}`);
-    // });
-    // this.logger.info(`Callback ret => ${ret}`);
-    //this.logger.info('Hello world from CPU Addon!');
+async function main({ logger }) {
+    logger.info('Hello world!');
 }
 
 // Export addon
