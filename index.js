@@ -9,7 +9,7 @@ const CPU = new Addon(main);
 CPU.registerCallback(get_info);
 
 async function get_info() {
-    return 'get_info hello world!';
+    return 'get_info callback from cpu addon';
 }
 
 /**
@@ -18,7 +18,7 @@ async function get_info() {
  * @function main
  */
 async function main({ logger }) {
-    logger.info('Hello world!');
+    logger.info('CPU Run!');
 }
 
 // Export addon

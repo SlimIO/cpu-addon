@@ -1,5 +1,9 @@
 {
     "name": "cpu",
     "interval": 1000,
-    "fork": false
+    "fork": false,
+    "required": [],
+    "logs": {
+        "level": "info"
+    }
 }
