@@ -1,8 +1,12 @@
 {
     "name": "cpu",
     "interval": 1000,
-    "fork": false,
+    "fork": true,
     "required": [],
+    "view": {
+        "active": true,
+        "root": "interfaces/index.html"
+    },
     "logs": {
         "level": "info"
     }

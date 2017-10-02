@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/SlimIO/cpu/issues"
   },
-  "homepage": "https://github.com/SlimIO/cpu#readme"
+  "homepage": "https://github.com/SlimIO/cpu#readme",
+  "devDependencies": {
+    "eslint-plugin-slimio": "^1.0.0"
+  }
 }
