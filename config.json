@@ -1,7 +1,7 @@
 {
     "name": "cpu",
     "interval": 1000,
-    "fork": true,
+    "fork": false,
     "required": [],
     "view": {
         "active": true,

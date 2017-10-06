@@ -21,9 +21,10 @@ async function get_info() {
  * @async
  * @function main
  */
-async function main({ logger }) {
-    //console.time('handle_cpu');
+async function main({ logger, request, execute }) {
+    console.time('handle_cpu');
     logger.info('CPU is running...');
+
     const CPUQoS = [];
     let total = 0, type;
 
@@ -42,7 +43,7 @@ async function main({ logger }) {
         }
         total = 0;
     }
-    //console.timeEnd('handle_cpu');
+    console.timeEnd('handle_cpu');
 }
 
 // Export addon
