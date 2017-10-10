@@ -1,0 +1,6 @@
+package qos;
+
+message cpu {
+   required string model = 1;
+   required double speed = 2;
+}
