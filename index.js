@@ -9,7 +9,6 @@ const timer = require("@slimio/timer");
 
 const CPU = new Addon("CPU");
 const metric = new Metrics(CPU); 
-
 CPU.on("start", () => {
     console.log("[CPU] Start event triggered!");
     const entity = metric.entity("CPU", {
@@ -25,7 +24,8 @@ CPU.on("start", () => {
             .set("model", cpus[id].model);
 
         // All Identity Card are Prefixed by the Identity Name (ex: CPU_USER).
-        const cardConfig = { unit: Unit.Pourcent, entity: childCPU };
+        
+        const cardConfig = { unit: Unit["Pourcent"], entity: childCPU };
         metric.identityCard("USER", cardConfig);
         metric.identityCard("NICE", cardConfig);
         metric.identityCard("SYS", cardConfig);
@@ -39,10 +39,10 @@ CPU.on("start", () => {
         const cpus = os.cpus();
         for (let id = 0; id < cpus.length; id++) {
             metric.publish(`CPU.${id}_USER`, cpus[id].times.user, harvestedAt);
-            metric.publish(`CPU.${id}_NICE`, cpus[id].times.nice);
-            metric.publish(`CPU.${id}_SYS`, cpus[id].times.sys);
-            metric.publish(`CPU.${id}_IDLE`, cpus[id].times.idle);
-            metric.publish(`CPU.${id}_IRQ`, cpus[id].times.irq);
+            metric.publish(`CPU.${id}_NICE`, cpus[id].times.nice, harvestedAt);
+            metric.publish(`CPU.${id}_SYS`, cpus[id].times.sys, harvestedAt);
+            metric.publish(`CPU.${id}_IDLE`, cpus[id].times.idle, harvestedAt);
+            metric.publish(`CPU.${id}_IRQ`, cpus[id].times.irq, harvestedAt);
         }
     }, 5000);
 
