@@ -22,6 +22,11 @@
   },
   "homepage": "https://github.com/SlimIO/cpu#readme",
   "devDependencies": {
-    "eslint-plugin-slimio": "^1.0.0"
+    "@slimio/eslint-config": "^1.1.8"
+  },
+  "dependencies": {
+    "@slimio/addon": "^0.11.0",
+    "@slimio/metrics": "^0.1.0",
+    "@slimio/units": "^0.2.0"
   }
 }

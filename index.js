@@ -1,60 +1,53 @@
-// Require Node.JS Dep
-const os = require('os');
-const cpus = os.cpus();
+// NodeJS Dependencies
+const os = require("os");
 
-/**
- * Create CPU QoS
- */
-const CPUDefinition = new MetricDefinition({
-    name: "CPU",
-    protoFile: './addons/cpu/qos/qos.proto',
-    lookupType: 'qos.cpu'
-});
+// SlimIO Dependencies
+const Unit = require("@slimio/units");
+const Metrics = require("@slimio/metrics");
+const Addon = require("@slimio/addon");
+const timer = require("@slimio/timer");
 
-/**
- * @const CPU
- * @type {Addon}
- * @default
- */
-const CPU = new Addon(main);
+const CPU = new Addon("CPU");
+const metric = new Metrics(CPU); 
 
-// Regisering get_info callback!
-CPU.registerCallback(get_info);
-CPU.registerDefinition(CPUDefinition);
-
-// Register metric items!
-cpus.forEach( (cpu,i) => {
-    CPUDefinition.createItem(`cpu${i}`,{
-        model: cpu.model,
-        speed: cpu.speed
+CPU.on("start", () => {
+    console.log("[CPU] Start event triggered!");
+    const entity = metric.entity("CPU", {
+        description: "Central Processing Unit"
     });
-});
 
-async function get_info() {
-    return 'get_info callback from cpu addon';
-}
+    const cpus = os.cpus();
+    for (let id = 0; id < cpus.length; id++) {
+        const childCPU = metric.entity(`CPU.${id}`, {
+            parent: entity
+        })
+            .set("speed", cpus[id].speed)
+            .set("model", cpus[id].model);
 
-/**
- * Addon main handler
- * @async
- * @function main
- */
-async function main({ logger, request, execute }) {
-    console.time('handle_cpu');
-    logger.info('CPU is running...');
-
-    let total = 0, type;
-    for(let i = 0; i < cpus.length; i++) {
-        for(type in cpus[i].times) {
-            total += cpus[i].times[type];
-        }
-        for(type in cpus[i].times) {
-            CPUDefinition.items.get(`cpu${i}`).sendValue(type,Math.round(100 * cpus[i].times[type] / total));
-        }
-        total = 0;
+        // All Identity Card are Prefixed by the Identity Name (ex: CPU_USER).
+        const cardConfig = { unit: Unit.Pourcent, entity: childCPU };
+        metric.identityCard("USER", cardConfig);
+        metric.identityCard("NICE", cardConfig);
+        metric.identityCard("SYS", cardConfig);
+        metric.identityCard("IDLE", cardConfig);
+        metric.identityCard("IRQ", cardConfig);
     }
-    console.timeEnd('handle_cpu');
-}
+
+    timer.setInterval(() => {
+        const harvestedAt = Date.now();
+        console.log("[CPU] publish metrics");
+        const cpus = os.cpus();
+        for (let id = 0; id < cpus.length; id++) {
+            metric.publish(`CPU.${id}_USER`, cpus[id].times.user, harvestedAt);
+            metric.publish(`CPU.${id}_NICE`, cpus[id].times.nice);
+            metric.publish(`CPU.${id}_SYS`, cpus[id].times.sys);
+            metric.publish(`CPU.${id}_IDLE`, cpus[id].times.idle);
+            metric.publish(`CPU.${id}_IRQ`, cpus[id].times.irq);
+        }
+    }, 5000);
+
+    CPU.ready();
+});
 
 // Export addon
 module.exports = CPU;
