@@ -5,14 +5,16 @@ const os = require("os");
 const { Pourcent } = require("@slimio/units");
 const Metrics = require("@slimio/metrics");
 const Addon = require("@slimio/addon");
-const timer = require("@slimio/timer");
+const Timer = require("@slimio/timer");
 
 // CONSTANTS
 const INTERVAL_MS = 5000;
 
 // Declare Addon
 const CPU = new Addon("CPU");
-const metric = new Metrics(CPU);
+const Metric = new Metrics(CPU);
+
+/** @type {Number} */
 let intervalId;
 
 /**
@@ -24,42 +26,42 @@ function cpuInterval() {
     const harvestedAt = Date.now();
 
     for (const { times } of os.cpus()) {
-        metric.publish(`CPU.${id}_USER`, times.user, harvestedAt);
-        metric.publish(`CPU.${id}_NICE`, times.nice, harvestedAt);
-        metric.publish(`CPU.${id}_SYS`, times.sys, harvestedAt);
-        metric.publish(`CPU.${id}_IDLE`, times.idle, harvestedAt);
-        metric.publish(`CPU.${id}_IRQ`, times.irq, harvestedAt);
+        Metric.publish(`CPU.${id}_USER`, times.user, harvestedAt);
+        Metric.publish(`CPU.${id}_NICE`, times.nice, harvestedAt);
+        Metric.publish(`CPU.${id}_SYS`, times.sys, harvestedAt);
+        Metric.publish(`CPU.${id}_IDLE`, times.idle, harvestedAt);
+        Metric.publish(`CPU.${id}_IRQ`, times.irq, harvestedAt);
     }
 }
 
 // Triggered when the addon is started by the core
 CPU.on("start", () => {
-    const parent = metric.entity("CPU", {
+    const parent = Metric.entity("CPU", {
         description: "Central Processing Unit"
     });
 
     const cpus = os.cpus();
     for (let id = 0; id < cpus.length; id++) {
-        const entity = metric.entity(`CPU.${id}`, { parent })
+        const entity = Metric.entity(`CPU.${id}`, { parent })
             .set("speed", cpus[id].speed)
             .set("model", cpus[id].model);
 
         // All Identity Card are Prefixed by the Identity Name (ex: CPU_USER).
         const cardConfig = { unit: Pourcent, entity };
-        metric.identityCard("USER", cardConfig);
-        metric.identityCard("NICE", cardConfig);
-        metric.identityCard("SYS", cardConfig);
-        metric.identityCard("IDLE", cardConfig);
-        metric.identityCard("IRQ", cardConfig);
+        Metric.identityCard("USER", cardConfig);
+        Metric.identityCard("NICE", cardConfig);
+        Metric.identityCard("SYS", cardConfig);
+        Metric.identityCard("IDLE", cardConfig);
+        Metric.identityCard("IRQ", cardConfig);
     }
 
-    intervalId = timer.setInterval(cpuInterval, INTERVAL_MS);
+    intervalId = Timer.setInterval(cpuInterval, INTERVAL_MS);
     CPU.ready();
 });
 
 // Triggered when the addon is stoped by the core
 CPU.on("stop", () => {
-    timer.clearInterval(intervalId);
+    Timer.clearInterval(intervalId);
 });
 
 // Export addon
