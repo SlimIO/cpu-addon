@@ -1,31 +1,51 @@
-// NodeJS Dependencies
+// Require NodeJS Dependencies
 const os = require("os");
 
-// SlimIO Dependencies
-const Unit = require("@slimio/units");
+// Require SlimIO Dependencies
+const { Pourcent } = require("@slimio/units");
 const Metrics = require("@slimio/metrics");
 const Addon = require("@slimio/addon");
 const timer = require("@slimio/timer");
 
+// CONSTANTS
+const INTERVAL_MS = 5000;
+
+// Declare Addon
 const CPU = new Addon("CPU");
-const metric = new Metrics(CPU); 
+const metric = new Metrics(CPU);
+let intervalId;
+
+/**
+ * @func cpuInterval
+ * @desc Main CPU Interval
+ * @returns {void}
+ */
+function cpuInterval() {
+    const harvestedAt = Date.now();
+
+    for (const { times } of os.cpus()) {
+        metric.publish(`CPU.${id}_USER`, times.user, harvestedAt);
+        metric.publish(`CPU.${id}_NICE`, times.nice, harvestedAt);
+        metric.publish(`CPU.${id}_SYS`, times.sys, harvestedAt);
+        metric.publish(`CPU.${id}_IDLE`, times.idle, harvestedAt);
+        metric.publish(`CPU.${id}_IRQ`, times.irq, harvestedAt);
+    }
+}
+
+// Triggered when the addon is started by the core
 CPU.on("start", () => {
-    console.log("[CPU] Start event triggered!");
-    const entity = metric.entity("CPU", {
+    const parent = metric.entity("CPU", {
         description: "Central Processing Unit"
     });
 
     const cpus = os.cpus();
     for (let id = 0; id < cpus.length; id++) {
-        const childCPU = metric.entity(`CPU.${id}`, {
-            parent: entity
-        })
+        const entity = metric.entity(`CPU.${id}`, { parent })
             .set("speed", cpus[id].speed)
             .set("model", cpus[id].model);
 
         // All Identity Card are Prefixed by the Identity Name (ex: CPU_USER).
-        
-        const cardConfig = { unit: Unit["Pourcent"], entity: childCPU };
+        const cardConfig = { unit: Pourcent, entity };
         metric.identityCard("USER", cardConfig);
         metric.identityCard("NICE", cardConfig);
         metric.identityCard("SYS", cardConfig);
@@ -33,20 +53,13 @@ CPU.on("start", () => {
         metric.identityCard("IRQ", cardConfig);
     }
 
-    timer.setInterval(() => {
-        const harvestedAt = Date.now();
-        console.log("[CPU] publish metrics");
-        const cpus = os.cpus();
-        for (let id = 0; id < cpus.length; id++) {
-            metric.publish(`CPU.${id}_USER`, cpus[id].times.user, harvestedAt);
-            metric.publish(`CPU.${id}_NICE`, cpus[id].times.nice, harvestedAt);
-            metric.publish(`CPU.${id}_SYS`, cpus[id].times.sys, harvestedAt);
-            metric.publish(`CPU.${id}_IDLE`, cpus[id].times.idle, harvestedAt);
-            metric.publish(`CPU.${id}_IRQ`, cpus[id].times.irq, harvestedAt);
-        }
-    }, 5000);
-
+    intervalId = timer.setInterval(cpuInterval, INTERVAL_MS);
     CPU.ready();
+});
+
+// Triggered when the addon is stoped by the core
+CPU.on("stop", () => {
+    timer.clearInterval(intervalId);
 });
 
 // Export addon
