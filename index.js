@@ -24,13 +24,13 @@ let intervalId;
  */
 function cpuInterval() {
     const harvestedAt = Date.now();
-
-    for (const { times } of os.cpus()) {
-        Metric.publish(`CPU.${id}_USER`, times.user, harvestedAt);
-        Metric.publish(`CPU.${id}_NICE`, times.nice, harvestedAt);
-        Metric.publish(`CPU.${id}_SYS`, times.sys, harvestedAt);
-        Metric.publish(`CPU.${id}_IDLE`, times.idle, harvestedAt);
-        Metric.publish(`CPU.${id}_IRQ`, times.irq, harvestedAt);
+    const cpus = os.cpus();
+    for (let id = 0; id < cpus.length; id++) {
+        Metric.publish(`CPU.${id}_USER`, cpus[id].times.user, harvestedAt);
+        Metric.publish(`CPU.${id}_NICE`, cpus[id].times.nice, harvestedAt);
+        Metric.publish(`CPU.${id}_SYS`, cpus[id].times.sys, harvestedAt);
+        Metric.publish(`CPU.${id}_IDLE`, cpus[id].times.idle, harvestedAt);
+        Metric.publish(`CPU.${id}_IRQ`, cpus[id].times.irq, harvestedAt);
     }
 }
 
