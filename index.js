@@ -2,7 +2,7 @@
 const os = require("os");
 
 // Require SlimIO Dependencies
-const { Pourcent } = require("@slimio/units");
+const Units = require("@slimio/units");
 const Metrics = require("@slimio/metrics");
 const Addon = require("@slimio/addon");
 const Timer = require("@slimio/timer");
@@ -47,7 +47,7 @@ CPU.on("start", () => {
             .set("model", cpus[id].model);
 
         // All Identity Card are Prefixed by the Identity Name (ex: CPU_USER).
-        const cardConfig = { unit: Pourcent, entity };
+        const cardConfig = { unit: Units.MilliSecond, entity };
         Metric.identityCard("USER", cardConfig);
         Metric.identityCard("NICE", cardConfig);
         Metric.identityCard("SYS", cardConfig);
