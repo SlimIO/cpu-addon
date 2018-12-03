@@ -4,8 +4,13 @@ SlimIO CPU Addon - Publish CPU Metrics
 ## Information
 
 This addon use the NodeJS API : [os.cpus()](https://nodejs.org/api/os.html#os_os_cpus)
+```js
+const os = require("os");
 
-## Entity declaration 
+console.log(os.cpus());
+```
+
+## Entity declaration
 
 `NULL` parent entities are directly linked to the PC entity (first entity declaration in db)
 
