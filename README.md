@@ -1,5 +1,5 @@
 # cpu-addon
-SlimIO CPU Addon - Publish CPU Metrics
+SlimIO CPU Addon - Recolt metric about Central Processing Unit with help of the Node.js core module **os**.
 
 ## Information
 
@@ -12,7 +12,7 @@ console.log(os.cpus());
 
 ## Entity declaration
 
-`NULL` parent entities are directly linked to the PC entity (first entity declaration in db)
+`NULL` parent entities are directly linked to the root computer entity (first entity declaration in the agent db)
 
 |Parent|Name|Description|
 |---|---|---|
@@ -46,3 +46,6 @@ All metrics are in milliseconds and represents the spending time in mode
 - `irq`: number
 
 > All metrics are collected every 5s by default
+
+## Alerting
+TBC
