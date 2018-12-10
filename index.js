@@ -11,7 +11,7 @@ const Timer = require("@slimio/timer");
 const INTERVAL_MS = 5000;
 
 // Declare Addon
-const CPU = new Addon("CPU");
+const CPU = new Addon("CPU").lockOn("events");
 const Metric = new Metrics(CPU);
 
 /** @type {Number} */
@@ -73,7 +73,7 @@ CPU.on("start", () => {
     const parent = Metric.entity("CPU", {
         description: "Central Processing Unit"
     });
-    Metric.identityCard("total", { unit: Units.Pourcent, entity: parent });   
+    Metric.identityCard("total", { unit: Units.Pourcent, entity: parent });
 
     let user = 0;
     let nice = 0;
