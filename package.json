@@ -46,7 +46,7 @@
     "nyc": "^13.1.0"
   },
   "dependencies": {
-    "@slimio/addon": "^0.15.0",
+    "@slimio/addon": "^0.15.1",
     "@slimio/metrics": "^0.1.6",
     "@slimio/units": "^0.3.0"
   }
