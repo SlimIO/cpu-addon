@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "@slimio/addon": "^0.16.0",
-    "@slimio/metrics": "^0.2.1",
+    "@slimio/metrics": "^0.3.1",
     "@slimio/units": "^0.3.1"
   }
 }
