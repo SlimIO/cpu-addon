@@ -15,18 +15,7 @@ let intervalId;
 
 // Declare Addon
 const CPU = new Addon("CPU").lockOn("events");
-const { Entity, MetricIdentityCard, Global: E_GLOBAL } = metrics(CPU);
-
-function rawPublish(micName, value, harvestedAt) {
-    if (!E_GLOBAL.mics.has(micName)) {
-        return void 0;
-    }
-    const mic = E_GLOBAL.mics.get(micName);
-
-    mic.publish(value, harvestedAt);
-
-    return void 0;
-}
+const { Entity, MetricIdentityCard, sendRawQoS } = metrics(CPU);
 
 // Declare Entities and MIC
 {
@@ -63,11 +52,11 @@ function cpuInterval() {
     const cpus = os.cpus();
     for (let id = 0; id < cpus.length; id++) {
         const { user, nice, sys, idle, irq } = cpus[id].times;
-        rawPublish(`CPU.${id}_USER`, user, harvestedAt);
-        rawPublish(`CPU.${id}_NICE`, nice, harvestedAt);
-        rawPublish(`CPU.${id}_SYS`, sys, harvestedAt);
-        rawPublish(`CPU.${id}_IDLE`, idle, harvestedAt);
-        rawPublish(`CPU.${id}_IRQ`, irq, harvestedAt);
+        sendRawQoS(`CPU.${id}_USER`, user, harvestedAt);
+        sendRawQoS(`CPU.${id}_NICE`, nice, harvestedAt);
+        sendRawQoS(`CPU.${id}_SYS`, sys, harvestedAt);
+        sendRawQoS(`CPU.${id}_IDLE`, idle, harvestedAt);
+        sendRawQoS(`CPU.${id}_IRQ`, irq, harvestedAt);
 
         raw.user += user;
         raw.nice += nice;
@@ -77,7 +66,7 @@ function cpuInterval() {
     }
 
     const pourcent = raw.idle / (raw.user + raw.nice + raw.sys + raw.idle + raw.irq);
-    rawPublish("CPU_total", (1 - pourcent) * 100, harvestedAt);
+    sendRawQoS("CPU_total", (1 - pourcent) * 100, harvestedAt);
 }
 
 // Triggered when the addon is started by the core
