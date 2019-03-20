@@ -1,5 +1,5 @@
 {
-  "name": "cpu",
+  "name": "@slimio/cpu-addon",
   "version": "1.0.0",
   "description": "SlimIO CPU Addon",
   "main": "index.js",
