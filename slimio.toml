@@ -1,3 +1,3 @@
-name = "cpu-addon"
+name = "cpu"
 version = "1.0.0"
 type = "Addon"
