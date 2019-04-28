@@ -14,12 +14,12 @@ const INTERVAL_MS = 5000;
 let intervalId;
 
 // Declare Addon
-const CPU = new Addon("CPU").lockOn("events");
+const CPU = new Addon("cpu").lockOn("events");
 const { Entity, MetricIdentityCard, sendRawQoS } = metrics(CPU);
 
 // Declare Entities and MIC
 {
-    const CPU_E = new Entity("CPU", {
+    const CPU_E = new Entity("cpu", {
         description: "Central Processing Unit"
     });
     new MetricIdentityCard("TOTAL", { unit: Units.Pourcent, entity: CPU_E });
