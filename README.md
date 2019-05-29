@@ -49,3 +49,11 @@ All metrics are in milliseconds and represents the spending time in mode
 
 ## Alerting
 TBC
+
+## Dependencies
+
+|Name|Refactoring|Security Risk|Usage|
+|---|---|---|---|
+|[@slimio/addon](https://github.com/SlimIO/Addon#readme)|Minor|High|Addon abstract class|
+|[@slimio/metrics](https://github.com/SlimIO/Metrics#readme)|Minor|High|Set metrics in DB|
+|[@slimio/units](https://github.com/SlimIO/is#readme)|Minor|Medium|Bunch of units for metrics|
