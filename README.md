@@ -1,7 +1,16 @@
 # cpu-addon
 SlimIO CPU Addon - Recolt metric about Central Processing Unit with help of the Node.js core module **os**.
 
-## Information
+## Getting Started
+This package is available in the SlimIO Package Registry and can be easily installed with [SlimIO CLI](https://github.com/SlimIO/CLI).
+
+```bash
+$ slimio --add cpu-addon
+# or
+$ slimio --add https://github.com/SlimIO/cpu-addon
+```
+
+## Design
 
 This addon use the NodeJS API : [os.cpus()](https://nodejs.org/api/os.html#os_os_cpus)
 ```js
@@ -10,7 +19,7 @@ const os = require("os");
 console.log(os.cpus());
 ```
 
-## Entity declaration
+### Entity declaration
 
 `NULL` parent entities are directly linked to the root computer entity (first entity declaration in the agent db)
 
@@ -22,9 +31,9 @@ console.log(os.cpus());
 `CPU.${id}` is duplicate for each logical CPU core
 > id start at 0
 
-## For each logical CPU core
+### For each logical CPU core
 
-### Descriptors
+#### Descriptors
 
 - `model`: string
 - `speed `: number (in MHz)
@@ -36,7 +45,7 @@ console.log(os.cpus());
 |model|"Intel(R) Core(TM) i7 CPU 860 @ 2.80GHz"|
 |speed|2926|
 
-### Metrics
+#### Metrics
 
 All metrics are in milliseconds and represents the spending time in mode
 - `user`: number
@@ -46,9 +55,6 @@ All metrics are in milliseconds and represents the spending time in mode
 - `irq`: number
 
 > All metrics are collected every 5s by default
-
-## Alerting
-TBC
 
 ## Dependencies
 
