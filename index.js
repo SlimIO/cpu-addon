@@ -47,7 +47,7 @@ const { Entity, MetricIdentityCard, sendRawQoS } = metrics(CPU);
  */
 function cpuInterval() {
     const raw = { user: 0, nice: 0, sys: 0, idle: 0, irq: 0 };
-    const harvestedAt = Date.now();
+    const harvestedAt = new Date().getTime();
 
     const cpus = os.cpus();
     for (let id = 0; id < cpus.length; id++) {
