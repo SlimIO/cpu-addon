@@ -1,3 +1,5 @@
+"use strict";
+
 // Require NodeJS Dependencies
 const os = require("os");
 
@@ -10,7 +12,7 @@ const Timer = require("@slimio/timer");
 // CONSTANTS
 const INTERVAL_MS = 5000;
 
-/** @type {Number} */
+/** @type {number} */
 let intervalId;
 
 // Declare Addon
@@ -41,8 +43,8 @@ const { Entity, MetricIdentityCard, sendRawQoS } = metrics(CPU);
 }
 
 /**
- * @func cpuInterval
- * @desc Main CPU Interval
+ * @function cpuInterval
+ * @description Main CPU Interval
  * @returns {void}
  */
 function cpuInterval() {
