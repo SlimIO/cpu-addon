@@ -26,6 +26,11 @@
     "cpu",
     "addon"
   ],
+  "files": [
+    "index.js",
+    "slimio.toml",
+    "src"
+  ],
   "nyc": {
     "check-coverage": true,
     "per-file": false,
