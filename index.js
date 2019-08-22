@@ -1,9 +1,9 @@
 "use strict";
 
-// Require NodeJS Dependencies
+// Require Node.js Dependencies
 const os = require("os");
 
-// Require SlimIO Dependencies
+// Require Third-party Dependencies
 const Units = require("@slimio/units");
 const metrics = require("@slimio/metrics");
 const Addon = require("@slimio/addon");
@@ -72,13 +72,13 @@ function cpuInterval() {
 }
 
 // Triggered when the addon is started by the core
-CPU.on("awake", () => {
-    CPU.ready();
+CPU.on("awake", async() => {
     intervalId = Timer.setInterval(cpuInterval, INTERVAL_MS);
+    await CPU.ready();
 });
 
 // Triggered when the addon is stoped by the core
-CPU.on("stop", () => {
+CPU.on("sleep", () => {
     Timer.clearInterval(intervalId);
 });
 
