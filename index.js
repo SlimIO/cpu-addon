@@ -7,13 +7,9 @@ const os = require("os");
 const Units = require("@slimio/units");
 const metrics = require("@slimio/metrics");
 const Addon = require("@slimio/addon");
-const Timer = require("@slimio/timer");
 
 // CONSTANTS
 const INTERVAL_MS = 5000;
-
-/** @type {number} */
-let intervalId;
 
 // Declare Addon
 const CPU = new Addon("cpu").lockOn("events");
@@ -70,16 +66,11 @@ function cpuInterval() {
     const pourcent = raw.idle / (raw.user + raw.nice + raw.sys + raw.idle + raw.irq);
     sendRawQoS("CPU_total", (1 - pourcent) * 100, harvestedAt);
 }
+CPU.registerInterval(cpuInterval, INTERVAL_MS);
 
 // Triggered when the addon is started by the core
 CPU.on("awake", async() => {
-    intervalId = Timer.setInterval(cpuInterval, INTERVAL_MS);
     await CPU.ready();
-});
-
-// Triggered when the addon is stoped by the core
-CPU.on("sleep", () => {
-    Timer.clearInterval(intervalId);
 });
 
 // Export addon
