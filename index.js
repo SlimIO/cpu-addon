@@ -1,12 +1,10 @@
-"use strict";
-
 // Require Node.js Dependencies
-const os = require("os");
+import os from "os";
 
 // Require Third-party Dependencies
-const Units = require("@slimio/units");
-const metrics = require("@slimio/metrics");
-const Addon = require("@slimio/addon");
+import Units from "@slimio/units";
+import metrics from "@slimio/metrics";
+import Addon from "@slimio/addon";
 
 // CONSTANTS
 const INTERVAL_MS = 5000;
@@ -74,4 +72,4 @@ CPU.on("awake", async() => {
 });
 
 // Export addon
-module.exports = CPU;
+export default CPU;
