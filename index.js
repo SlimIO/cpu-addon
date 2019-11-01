@@ -66,10 +66,5 @@ function cpuInterval() {
 }
 CPU.registerInterval(cpuInterval, INTERVAL_MS);
 
-// Triggered when the addon is started by the core
-CPU.on("awake", async() => {
-    await CPU.ready();
-});
-
 // Export addon
 export default CPU;
